@@ -5,7 +5,7 @@ This project only contains interfaces and object definitions, and is designed to
 
 ## Supported Services
 * Lexicon Expansion - com/languagecomputer/services/api/LexicalExpansionServiceInterface.java
-** mvn exec:java -Dexec.mainClass="com.languagecomputer.services.examples.LexicalExpansionExample" -Dexec.args="http://IP_ADDRESS:9122/lexicalexpansion/expand kiwi"
+  * mvn exec:java -Dexec.mainClass="com.languagecomputer.services.examples.LexicalExpansionExample" -Dexec.args="http://IP_ADDRESS:9122/lexicalexpansion/expand kiwi"
 
 ## Messages
 * src/main/java/com/languagecomputer/services/messages
@@ -13,4 +13,4 @@ This project only contains interfaces and object definitions, and is designed to
 
 ## Examples
 * src/main/java/com/languagecomputer/services/examples
-** This package contains examples for how to use the services
+  * This package contains examples for how to use the services
