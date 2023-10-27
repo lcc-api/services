@@ -1,16 +1,40 @@
-# services
-Language Computer APIs and Example for RESTful services
+Interface project for publicly exposed LCC REST services
 
-This project only contains interfaces and object definitions, and is designed to interact via REST with a Java program which implements these interfaces.
+Requirements:
+* Java 17
+* Maven 3.8.5
 
-## Supported Services
-* Lexicon Expansion - com/languagecomputer/services/api/LexicalExpansionServiceInterface.java
-  * mvn exec:java -Dexec.mainClass="com.languagecomputer.services.examples.LexicalExpansionExample" -Dexec.args="http://IP_ADDRESS:9122/lexicalexpansion/expand kiwi"
 
-## Messages
-* src/main/java/com/languagecomputer/services/messages
-* This package contains the input and output Java classes which are serialized as JSON to the web services
+This project is free source and enables third parties to develop against LCC's interface.
 
-## Examples
-* src/main/java/com/languagecomputer/services/examples
-  * This package contains examples for how to use the services
+Each subproject is roughly associated with a single LCC RESTful web service.
+
+Modules tend to be java interfaces with jax.rs annotations detailing the API, message classes written in Kotlin, with example mains either in the test package or in the client/ module
+
+Subprojects:
+* api
+  * Common objects and interfaces that all modules depend on 
+* client
+  * Runtime applications that utilize the other modules
+* Core Services
+  * docprocess
+    * Interfaces for submitting documents to LCC's document processing pipeline
+  * examplestore
+    * Examples are representation of text or other spans labelled with a concept that support human annotation  
+    * Annotations used to validate quality, provide data to re-train models, and other uses
+  * job
+    * Keeps track of running jobs throughout LCC's pipeline, enables third party tracking of job status
+  * ontology
+    * The Ontology is a customizable taxonomy of known concepts that define what is extracted 
+
+* Advanced Services
+  * filestore
+    * store large files such as videos to avoid having to pass them around multiple times
+  * mmannstore
+    * The multimodal annotation store for tracking annotations on top of video/image or various other formats.
+  * mmdocprocess
+    * The multimodal version of document processing (enables processing of videos, audio, and images)
+  * multimodal
+    * Message objects for multimodal projects, such as video, audio, and imagery
+  * vectorstore
+    * store vectors for later retrieval or nearest neighbor search

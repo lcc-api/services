@@ -1,0 +1,1438 @@
+{
+  "llavaImageDescription": "In the image, there is a woman walking past a city bus on the sidewalk. She is carrying a handbag and appears to be in motion. The bus is parked on the side of the road, and there are a few other people in the scene, including one person standing near the bus and another walking in the opposite direction.\n\nIn addition to the bus, there are two cars visible in the image, one parked behind the bus and another further back on the right side. A traffic light can also be seen in the background, indicating that the scene takes place in an urban environment with busy streets.",
+  "imgTags": [
+    "bus",
+    "bus stop",
+    "city bus",
+    "city street",
+    "curb",
+    "person",
+    "passenger",
+    "pavement",
+    "road",
+    "sweatshirt",
+    "walk",
+    "woman"
+  ],
+  "objects": {
+    "id_0": {
+      "class": "car",
+      "surroundingTags": [
+        "back",
+        "car",
+        "drive",
+        "license plate",
+        "man",
+        "mark",
+        "motorcycle",
+        "pole",
+        "road",
+        "sign",
+        "street sign",
+        "traffic sign",
+        "truck",
+        "vehicle",
+        "white",
+        "writing"
+      ],
+      "llavaDescription": "The car in the image is a blue SUV.",
+      "centerLoc": [
+        1062.0,
+        341.5
+      ],
+      "bboxSize": [
+        176,
+        149
+      ],
+      "partAttributes": {
+        "car:wheel_0": {
+          "confidence": 0.84613496,
+          "bboxSize": [
+            83,
+            37
+          ],
+          "centerLoc": [
+            131.5,
+            47.5
+          ]
+        },
+        "car:window_1": {
+          "confidence": 0.6704201,
+          "bboxSize": [
+            26,
+            49
+          ],
+          "centerLoc": [
+            14.0,
+            24.5
+          ]
+        },
+        "car:wheel_2": {
+          "confidence": 0.5231205,
+          "bboxSize": [
+            37,
+            20
+          ],
+          "centerLoc": [
+            71.5,
+            12.0
+          ]
+        },
+        "car:door_3": {
+          "confidence": 0.5039198,
+          "bboxSize": [
+            165,
+            98
+          ],
+          "centerLoc": [
+            84.5,
+            84.0
+          ]
+        },
+        "car:wheel_4": {
+          "confidence": 0.44298288,
+          "bboxSize": [
+            76,
+            12
+          ],
+          "centerLoc": [
+            134.0,
+            36.0
+          ]
+        },
+        "motorbike:wheel_5": {
+          "confidence": 0.4041702,
+          "bboxSize": [
+            83,
+            37
+          ],
+          "centerLoc": [
+            131.5,
+            47.5
+          ]
+        },
+        "car:door_6": {
+          "confidence": 0.39515904,
+          "bboxSize": [
+            49,
+            49
+          ],
+          "centerLoc": [
+            25.5,
+            25.5
+          ]
+        },
+        "car:mirror_7": {
+          "confidence": 0.33766493,
+          "bboxSize": [
+            6,
+            23
+          ],
+          "centerLoc": [
+            118.0,
+            16.5
+          ]
+        }
+      }
+    },
+    "id_1": {
+      "class": "car",
+      "surroundingTags": [
+        "accident",
+        "bumper",
+        "car",
+        "curb",
+        "drive",
+        "headlight",
+        "license plate",
+        "pick up",
+        "road",
+        "suv",
+        "tow truck",
+        "truck",
+        "vehicle"
+      ],
+      "llavaDescription": "The car in the image is a red truck.",
+      "centerLoc": [
+        1172.5,
+        2938.0
+      ],
+      "bboxSize": [
+        337,
+        122
+      ],
+      "partAttributes": {
+        "car:headlight_0": {
+          "confidence": 0.97616506,
+          "bboxSize": [
+            38,
+            43
+          ],
+          "centerLoc": [
+            101.0,
+            90.5
+          ]
+        },
+        "car:window_1": {
+          "confidence": 0.6181992,
+          "bboxSize": [
+            70,
+            106
+          ],
+          "centerLoc": [
+            37.0,
+            67.0
+          ]
+        },
+        "car:mirror_2": {
+          "confidence": 0.45971233,
+          "bboxSize": [
+            15,
+            21
+          ],
+          "centerLoc": [
+            170.5,
+            52.5
+          ]
+        },
+        "car:mirror_3": {
+          "confidence": 0.436083,
+          "bboxSize": [
+            69,
+            108
+          ],
+          "centerLoc": [
+            36.5,
+            66.0
+          ]
+        },
+        "car:headlight_4": {
+          "confidence": 0.41527328,
+          "bboxSize": [
+            90,
+            57
+          ],
+          "centerLoc": [
+            125.0,
+            91.5
+          ]
+        },
+        "bird:leg_5": {
+          "confidence": 0.3850604,
+          "bboxSize": [
+            16,
+            41
+          ],
+          "centerLoc": [
+            327.0,
+            52.5
+          ]
+        },
+        "bus:mirror_6": {
+          "confidence": 0.3818015,
+          "bboxSize": [
+            44,
+            56
+          ],
+          "centerLoc": [
+            22.0,
+            28.0
+          ]
+        },
+        "dog:leg_7": {
+          "confidence": 0.3256992,
+          "bboxSize": [
+            92,
+            28
+          ],
+          "centerLoc": [
+            289.0,
+            26.0
+          ]
+        },
+        "car:mirror_8": {
+          "confidence": 0.3173895,
+          "bboxSize": [
+            44,
+            56
+          ],
+          "centerLoc": [
+            22.0,
+            28.0
+          ]
+        },
+        "cat:tail_9": {
+          "confidence": 0.30457738,
+          "bboxSize": [
+            3,
+            19
+          ],
+          "centerLoc": [
+            334.5,
+            20.5
+          ]
+        }
+      }
+    },
+    "id_2": {
+      "class": "bus",
+      "surroundingTags": [
+        "board",
+        "bus",
+        "bus stop",
+        "city bus",
+        "city street",
+        "curb",
+        "person",
+        "passenger",
+        "pavement",
+        "road",
+        "stand",
+        "walk"
+      ],
+      "llavaDescription": "The bus in the image is a large, long white bus, likely a city or public transportation bus. It is parked on the side of the road, possibly at a bus stop, with people standing nearby.",
+      "centerLoc": [
+        876.0,
+        1941.5
+      ],
+      "bboxSize": [
+        1444,
+        2055
+      ],
+      "partAttributes": {
+        "bus:mirror_0": {
+          "confidence": 0.85387397,
+          "bboxSize": [
+            167,
+            119
+          ],
+          "centerLoc": [
+            465.5,
+            744.5
+          ]
+        },
+        "person:torso_1": {
+          "confidence": 0.79481244,
+          "bboxSize": [
+            751,
+            111
+          ],
+          "centerLoc": [
+            755.5,
+            55.5
+          ]
+        },
+        "bus:mirror_2": {
+          "confidence": 0.77691865,
+          "bboxSize": [
+            146,
+            98
+          ],
+          "centerLoc": [
+            696.0,
+            2004.0
+          ]
+        },
+        "bus:headlight_3": {
+          "confidence": 0.6754097,
+          "bboxSize": [
+            126,
+            250
+          ],
+          "centerLoc": [
+            1095.0,
+            921.0
+          ]
+        },
+        "person:torso_4": {
+          "confidence": 0.65188307,
+          "bboxSize": [
+            332,
+            262
+          ],
+          "centerLoc": [
+            911.0,
+            514.0
+          ]
+        },
+        "car:license plate_5": {
+          "confidence": 0.5670103,
+          "bboxSize": [
+            67,
+            105
+          ],
+          "centerLoc": [
+            1166.5,
+            1427.5
+          ]
+        },
+        "bus:mirror_6": {
+          "confidence": 0.54595727,
+          "bboxSize": [
+            119,
+            68
+          ],
+          "centerLoc": [
+            301.5,
+            738.0
+          ]
+        },
+        "bus:window_7": {
+          "confidence": 0.5164667,
+          "bboxSize": [
+            558,
+            931
+          ],
+          "centerLoc": [
+            662.0,
+            1452.5
+          ]
+        },
+        "car:headlight_8": {
+          "confidence": 0.4706541,
+          "bboxSize": [
+            37,
+            21
+          ],
+          "centerLoc": [
+            951.5,
+            2043.5
+          ]
+        },
+        "aeroplane:wheel_9": {
+          "confidence": 0.4444101,
+          "bboxSize": [
+            120,
+            90
+          ],
+          "centerLoc": [
+            1372.0,
+            209.0
+          ]
+        },
+        "bus:headlight_10": {
+          "confidence": 0.42822188,
+          "bboxSize": [
+            128,
+            172
+          ],
+          "centerLoc": [
+            1063.0,
+            1860.0
+          ]
+        },
+        "person:foot_11": {
+          "confidence": 0.42604986,
+          "bboxSize": [
+            106,
+            75
+          ],
+          "centerLoc": [
+            1390.0,
+            433.5
+          ]
+        },
+        "person:leg_12": {
+          "confidence": 0.40585947,
+          "bboxSize": [
+            319,
+            94
+          ],
+          "centerLoc": [
+            1270.5,
+            47.0
+          ]
+        },
+        "car:wheel_13": {
+          "confidence": 0.4033058,
+          "bboxSize": [
+            103,
+            57
+          ],
+          "centerLoc": [
+            1139.5,
+            2023.5
+          ]
+        },
+        "car:wheel_14": {
+          "confidence": 0.39673308,
+          "bboxSize": [
+            59,
+            39
+          ],
+          "centerLoc": [
+            1159.5,
+            1976.5
+          ]
+        },
+        "car:headlight_15": {
+          "confidence": 0.39287126,
+          "bboxSize": [
+            126,
+            250
+          ],
+          "centerLoc": [
+            1095.0,
+            921.0
+          ]
+        },
+        "motorbike:wheel_16": {
+          "confidence": 0.39074698,
+          "bboxSize": [
+            300,
+            108
+          ],
+          "centerLoc": [
+            1290.0,
+            532.0
+          ]
+        },
+        "car:mirror_17": {
+          "confidence": 0.38809648,
+          "bboxSize": [
+            146,
+            98
+          ],
+          "centerLoc": [
+            696.0,
+            2004.0
+          ]
+        },
+        "person:foot_18": {
+          "confidence": 0.35683954,
+          "bboxSize": [
+            121,
+            108
+          ],
+          "centerLoc": [
+            1308.5,
+            618.0
+          ]
+        },
+        "bus:license plate_19": {
+          "confidence": 0.3464025,
+          "bboxSize": [
+            68,
+            105
+          ],
+          "centerLoc": [
+            1166.0,
+            1427.5
+          ]
+        },
+        "motorbike:wheel_20": {
+          "confidence": 0.33086747,
+          "bboxSize": [
+            120,
+            90
+          ],
+          "centerLoc": [
+            1372.0,
+            209.0
+          ]
+        },
+        "car:headlight_21": {
+          "confidence": 0.3036692,
+          "bboxSize": [
+            128,
+            172
+          ],
+          "centerLoc": [
+            1063.0,
+            1860.0
+          ]
+        },
+        "motorbike:headlight_22": {
+          "confidence": 0.301967,
+          "bboxSize": [
+            126,
+            250
+          ],
+          "centerLoc": [
+            1095.0,
+            921.0
+          ]
+        }
+      }
+    },
+    "id_3": {
+      "class": "car",
+      "surroundingTags": [
+        "car",
+        "curb",
+        "pole",
+        "road",
+        "street corner",
+        "street sign",
+        "traffic sign",
+        "tree"
+      ],
+      "llavaDescription": "The car in the image is a black car, possibly a Mazda, driving down a street.",
+      "centerLoc": [
+        1051.5,
+        174.0
+      ],
+      "bboxSize": [
+        137,
+        196
+      ],
+      "partAttributes": {
+        "car:window_0": {
+          "confidence": 0.80819184,
+          "bboxSize": [
+            42,
+            41
+          ],
+          "centerLoc": [
+            28.0,
+            61.5
+          ]
+        },
+        "person:leg_1": {
+          "confidence": 0.7538063,
+          "bboxSize": [
+            24,
+            20
+          ],
+          "centerLoc": [
+            124.0,
+            181.0
+          ]
+        },
+        "person:leg_2": {
+          "confidence": 0.6801831,
+          "bboxSize": [
+            15,
+            14
+          ],
+          "centerLoc": [
+            127.5,
+            156.0
+          ]
+        },
+        "person:leg_3": {
+          "confidence": 0.6655254,
+          "bboxSize": [
+            13,
+            18
+          ],
+          "centerLoc": [
+            129.5,
+            42.0
+          ]
+        },
+        "car:door_4": {
+          "confidence": 0.63434744,
+          "bboxSize": [
+            73,
+            43
+          ],
+          "centerLoc": [
+            43.5,
+            60.5
+          ]
+        },
+        "person:leg_5": {
+          "confidence": 0.63072413,
+          "bboxSize": [
+            19,
+            17
+          ],
+          "centerLoc": [
+            125.5,
+            17.5
+          ]
+        },
+        "person:torso_6": {
+          "confidence": 0.6215097,
+          "bboxSize": [
+            73,
+            42
+          ],
+          "centerLoc": [
+            91.5,
+            27.0
+          ]
+        },
+        "person:head_7": {
+          "confidence": 0.5653974,
+          "bboxSize": [
+            36,
+            26
+          ],
+          "centerLoc": [
+            58.0,
+            24.0
+          ]
+        },
+        "car:door_8": {
+          "confidence": 0.5500905,
+          "bboxSize": [
+            117,
+            67
+          ],
+          "centerLoc": [
+            63.5,
+            49.5
+          ]
+        },
+        "dog:torso_9": {
+          "confidence": 0.48526776,
+          "bboxSize": [
+            31,
+            42
+          ],
+          "centerLoc": [
+            103.5,
+            169.0
+          ]
+        },
+        "motorbike:headlight_10": {
+          "confidence": 0.42619282,
+          "bboxSize": [
+            8,
+            15
+          ],
+          "centerLoc": [
+            45.0,
+            187.5
+          ]
+        },
+        "person:leg_11": {
+          "confidence": 0.3622142,
+          "bboxSize": [
+            41,
+            17
+          ],
+          "centerLoc": [
+            114.5,
+            42.5
+          ]
+        },
+        "dog:tail_12": {
+          "confidence": 0.34089592,
+          "bboxSize": [
+            53,
+            3
+          ],
+          "centerLoc": [
+            104.5,
+            7.5
+          ]
+        },
+        "car:mirror_13": {
+          "confidence": 0.33916712,
+          "bboxSize": [
+            8,
+            15
+          ],
+          "centerLoc": [
+            45.0,
+            187.5
+          ]
+        },
+        "person:arm_14": {
+          "confidence": 0.31987908,
+          "bboxSize": [
+            61,
+            24
+          ],
+          "centerLoc": [
+            92.5,
+            18.0
+          ]
+        },
+        "person:leg_15": {
+          "confidence": 0.3177875,
+          "bboxSize": [
+            45,
+            15
+          ],
+          "centerLoc": [
+            113.5,
+            155.5
+          ]
+        }
+      }
+    },
+    "id_4": {
+      "class": "car",
+      "surroundingTags": [
+        "bath",
+        "bin",
+        "bottle",
+        "pillar",
+        "pole",
+        "selfie",
+        "stand"
+      ],
+      "llavaDescription": "The car in the image is a Mazda, and it is black in color.",
+      "centerLoc": [
+        1113.0,
+        567.0
+      ],
+      "bboxSize": [
+        78,
+        32
+      ],
+      "partAttributes": {
+        "dog:torso_0": {
+          "confidence": 0.6403974,
+          "bboxSize": [
+            30,
+            28
+          ],
+          "centerLoc": [
+            62.0,
+            14.0
+          ]
+        },
+        "dog:leg_1": {
+          "confidence": 0.5373607,
+          "bboxSize": [
+            4,
+            14
+          ],
+          "centerLoc": [
+            75.0,
+            16.0
+          ]
+        },
+        "dog:ear_2": {
+          "confidence": 0.41760638,
+          "bboxSize": [
+            4,
+            1
+          ],
+          "centerLoc": [
+            2.0,
+            0.5
+          ]
+        },
+        "dog:torso_3": {
+          "confidence": 0.3190587,
+          "bboxSize": [
+            42,
+            29
+          ],
+          "centerLoc": [
+            21.0,
+            14.5
+          ]
+        }
+      }
+    },
+    "id_5": {
+      "class": "person",
+      "surroundingTags": [
+        "bus",
+        "bus stop",
+        "city bus",
+        "decker bus",
+        "hoodie",
+        "person",
+        "man",
+        "pavement",
+        "road",
+        "scooter",
+        "sweatshirt",
+        "walk"
+      ],
+      "llavaDescription": "In the image, there is a woman walking down the street. She is wearing a grey hoodie and black pants, and she is carrying a handbag. She is walking past a bus stop, where a city bus is parked. There are also a few other people in the scene, one of whom is carrying a skateboard.",
+      "centerLoc": [
+        1235.0,
+        867.0
+      ],
+      "bboxSize": [
+        1388,
+        468
+      ],
+      "partAttributes": {
+        "person:arm_0": {
+          "confidence": 0.7754064,
+          "bboxSize": [
+            297,
+            112
+          ],
+          "centerLoc": [
+            386.5,
+            408.0
+          ]
+        },
+        "person:foot_1": {
+          "confidence": 0.7300676,
+          "bboxSize": [
+            256,
+            106
+          ],
+          "centerLoc": [
+            1251.0,
+            175.0
+          ]
+        },
+        "person:torso_2": {
+          "confidence": 0.705489,
+          "bboxSize": [
+            743,
+            404
+          ],
+          "centerLoc": [
+            372.5,
+            213.0
+          ]
+        },
+        "person:foot_3": {
+          "confidence": 0.4844302,
+          "bboxSize": [
+            140,
+            93
+          ],
+          "centerLoc": [
+            1317.0,
+            230.5
+          ]
+        },
+        "person:hand_4": {
+          "confidence": 0.3978069,
+          "bboxSize": [
+            158,
+            64
+          ],
+          "centerLoc": [
+            477.0,
+            392.0
+          ]
+        },
+        "person:arm_5": {
+          "confidence": 0.39278057,
+          "bboxSize": [
+            312,
+            121
+          ],
+          "centerLoc": [
+            404.0,
+            69.5
+          ]
+        },
+        "person:leg_6": {
+          "confidence": 0.35969943,
+          "bboxSize": [
+            274,
+            102
+          ],
+          "centerLoc": [
+            1106.0,
+            256.0
+          ]
+        },
+        "person:leg_7": {
+          "confidence": 0.3494596,
+          "bboxSize": [
+            254,
+            106
+          ],
+          "centerLoc": [
+            1251.0,
+            175.0
+          ]
+        },
+        "person:leg_8": {
+          "confidence": 0.3337659,
+          "bboxSize": [
+            524,
+            289
+          ],
+          "centerLoc": [
+            996.0,
+            225.5
+          ]
+        },
+        "person:leg_9": {
+          "confidence": 0.301079,
+          "bboxSize": [
+            191,
+            115
+          ],
+          "centerLoc": [
+            1063.5,
+            140.5
+          ]
+        }
+      }
+    },
+    "id_6": {
+      "class": "person",
+      "surroundingTags": [
+        "ambulance",
+        "board",
+        "boot",
+        "bus",
+        "bus stop",
+        "city bus",
+        "person",
+        "load",
+        "man",
+        "scooter",
+        "stand",
+        "subway",
+        "tour bus"
+      ],
+      "llavaDescription": "The person in the image is a woman wearing a black jacket and boots. She is standing on the sidewalk near a bus, possibly waiting to board or having just disembarked from it.",
+      "centerLoc": [
+        1218.0,
+        1436.0
+      ],
+      "bboxSize": [
+        784,
+        274
+      ],
+      "partAttributes": {
+        "person:arm_0": {
+          "confidence": 0.98459405,
+          "bboxSize": [
+            116,
+            90
+          ],
+          "centerLoc": [
+            207.0,
+            210.0
+          ]
+        },
+        "person:torso_1": {
+          "confidence": 0.95781755,
+          "bboxSize": [
+            341,
+            255
+          ],
+          "centerLoc": [
+            242.5,
+            129.5
+          ]
+        },
+        "person:arm_2": {
+          "confidence": 0.8449172,
+          "bboxSize": [
+            103,
+            71
+          ],
+          "centerLoc": [
+            294.5,
+            236.5
+          ]
+        },
+        "person:head_3": {
+          "confidence": 0.8100002,
+          "bboxSize": [
+            90,
+            108
+          ],
+          "centerLoc": [
+            45.0,
+            159.0
+          ]
+        },
+        "potted plant:pot_4": {
+          "confidence": 0.70419055,
+          "bboxSize": [
+            138,
+            94
+          ],
+          "centerLoc": [
+            643.0,
+            226.0
+          ]
+        },
+        "potted plant:pot_5": {
+          "confidence": 0.6737103,
+          "bboxSize": [
+            118,
+            92
+          ],
+          "centerLoc": [
+            722.0,
+            59.0
+          ]
+        },
+        "person:foot_6": {
+          "confidence": 0.5825861,
+          "bboxSize": [
+            19,
+            45
+          ],
+          "centerLoc": [
+            771.5,
+            32.5
+          ]
+        },
+        "person:leg_7": {
+          "confidence": 0.5612388,
+          "bboxSize": [
+            101,
+            74
+          ],
+          "centerLoc": [
+            618.5,
+            59.0
+          ]
+        },
+        "person:leg_8": {
+          "confidence": 0.5333822,
+          "bboxSize": [
+            169,
+            190
+          ],
+          "centerLoc": [
+            492.5,
+            110.0
+          ]
+        },
+        "person:arm_9": {
+          "confidence": 0.475157,
+          "bboxSize": [
+            108,
+            58
+          ],
+          "centerLoc": [
+            162.0,
+            30.0
+          ]
+        },
+        "person:neck_10": {
+          "confidence": 0.44750866,
+          "bboxSize": [
+            51,
+            127
+          ],
+          "centerLoc": [
+            98.5,
+            148.5
+          ]
+        },
+        "person:hand_11": {
+          "confidence": 0.43968412,
+          "bboxSize": [
+            88,
+            49
+          ],
+          "centerLoc": [
+            302.0,
+            247.5
+          ]
+        },
+        "person:leg_12": {
+          "confidence": 0.42549038,
+          "bboxSize": [
+            170,
+            95
+          ],
+          "centerLoc": [
+            490.0,
+            63.5
+          ]
+        },
+        "person:hand_13": {
+          "confidence": 0.40292254,
+          "bboxSize": [
+            19,
+            45
+          ],
+          "centerLoc": [
+            771.5,
+            32.5
+          ]
+        },
+        "person:arm_14": {
+          "confidence": 0.38598573,
+          "bboxSize": [
+            217,
+            45
+          ],
+          "centerLoc": [
+            223.5,
+            23.5
+          ]
+        },
+        "person:leg_15": {
+          "confidence": 0.34694502,
+          "bboxSize": [
+            203,
+            92
+          ],
+          "centerLoc": [
+            673.5,
+            58.0
+          ]
+        },
+        "person:arm_16": {
+          "confidence": 0.3454644,
+          "bboxSize": [
+            190,
+            39
+          ],
+          "centerLoc": [
+            485.0,
+            19.5
+          ]
+        },
+        "person:leg_17": {
+          "confidence": 0.332587,
+          "bboxSize": [
+            257,
+            36
+          ],
+          "centerLoc": [
+            518.5,
+            19.0
+          ]
+        },
+        "person:hand_18": {
+          "confidence": 0.3047449,
+          "bboxSize": [
+            28,
+            76
+          ],
+          "centerLoc": [
+            677.0,
+            49.0
+          ]
+        }
+      }
+    },
+    "id_7": {
+      "class": "car",
+      "surroundingTags": [
+        "animal",
+        "car",
+        "pole",
+        "red",
+        "road",
+        "snow",
+        "stand",
+        "street corner",
+        "street sign",
+        "walk",
+        "woman"
+      ],
+      "llavaDescription": "The car in the image is a silver four-door sedan, and it is driving down a street.",
+      "centerLoc": [
+        1020.0,
+        590.0
+      ],
+      "bboxSize": [
+        104,
+        78
+      ],
+      "partAttributes": {
+        "dog:ear_0": {
+          "confidence": 0.8257732,
+          "bboxSize": [
+            7,
+            9
+          ],
+          "centerLoc": [
+            3.5,
+            34.5
+          ]
+        },
+        "dog:leg_1": {
+          "confidence": 0.6399521,
+          "bboxSize": [
+            32,
+            25
+          ],
+          "centerLoc": [
+            87.0,
+            13.5
+          ]
+        },
+        "cat:ear_2": {
+          "confidence": 0.6382461,
+          "bboxSize": [
+            7,
+            9
+          ],
+          "centerLoc": [
+            3.5,
+            34.5
+          ]
+        },
+        "sheep:leg_3": {
+          "confidence": 0.629056,
+          "bboxSize": [
+            12,
+            4
+          ],
+          "centerLoc": [
+            97.0,
+            27.0
+          ]
+        },
+        "dog:leg_4": {
+          "confidence": 0.6112974,
+          "bboxSize": [
+            11,
+            24
+          ],
+          "centerLoc": [
+            97.5,
+            53.0
+          ]
+        },
+        "dog:leg_5": {
+          "confidence": 0.5029329,
+          "bboxSize": [
+            7,
+            20
+          ],
+          "centerLoc": [
+            99.5,
+            59.0
+          ]
+        },
+        "cat:leg_6": {
+          "confidence": 0.4810626,
+          "bboxSize": [
+            32,
+            25
+          ],
+          "centerLoc": [
+            87.0,
+            13.5
+          ]
+        },
+        "dog:leg_7": {
+          "confidence": 0.4637364,
+          "bboxSize": [
+            18,
+            2
+          ],
+          "centerLoc": [
+            94.0,
+            27.0
+          ]
+        },
+        "dog:leg_8": {
+          "confidence": 0.445205,
+          "bboxSize": [
+            4,
+            5
+          ],
+          "centerLoc": [
+            101.0,
+            60.5
+          ]
+        },
+        "dog:leg_9": {
+          "confidence": 0.44259515,
+          "bboxSize": [
+            9,
+            15
+          ],
+          "centerLoc": [
+            98.5,
+            66.5
+          ]
+        },
+        "dog:leg_10": {
+          "confidence": 0.42847207,
+          "bboxSize": [
+            15,
+            25
+          ],
+          "centerLoc": [
+            95.5,
+            13.5
+          ]
+        },
+        "dog:ear_11": {
+          "confidence": 0.39244568,
+          "bboxSize": [
+            14,
+            12
+          ],
+          "centerLoc": [
+            7.0,
+            33.0
+          ]
+        },
+        "dog:torso_12": {
+          "confidence": 0.39077592,
+          "bboxSize": [
+            90,
+            71
+          ],
+          "centerLoc": [
+            51.0,
+            40.5
+          ]
+        },
+        "cow:leg_13": {
+          "confidence": 0.35538554,
+          "bboxSize": [
+            32,
+            32
+          ],
+          "centerLoc": [
+            87.0,
+            56.0
+          ]
+        },
+        "sheep:leg_14": {
+          "confidence": 0.35402077,
+          "bboxSize": [
+            32,
+            32
+          ],
+          "centerLoc": [
+            87.0,
+            56.0
+          ]
+        },
+        "dog:leg_15": {
+          "confidence": 0.3515529,
+          "bboxSize": [
+            3,
+            15
+          ],
+          "centerLoc": [
+            101.5,
+            55.5
+          ]
+        },
+        "dog:torso_16": {
+          "confidence": 0.3424347,
+          "bboxSize": [
+            23,
+            25
+          ],
+          "centerLoc": [
+            11.5,
+            12.5
+          ]
+        },
+        "dog:leg_17": {
+          "confidence": 0.31853288,
+          "bboxSize": [
+            18,
+            8
+          ],
+          "centerLoc": [
+            93.0,
+            24.0
+          ]
+        },
+        "dog:leg_18": {
+          "confidence": 0.31350708,
+          "bboxSize": [
+            25,
+            30
+          ],
+          "centerLoc": [
+            90.5,
+            56.0
+          ]
+        }
+      }
+    }
+  }
+}

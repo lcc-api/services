@@ -1,0 +1,16 @@
+{
+  "modelName": "default",
+  "documentQuery": {
+    "searchTerms": ["*:*"],
+    "requiredList": [],
+    "facets": {},
+    "docIds": [],
+    "required": false,
+    "searchLimit": 2147483647,
+    "rawLuceneQuery": null
+  },
+  "modelType": "JOINT_WIKI_PREDICATE",
+  "parameters": [
+    { "name":"hdbscan", "value":"false" }
+  ]
+}
