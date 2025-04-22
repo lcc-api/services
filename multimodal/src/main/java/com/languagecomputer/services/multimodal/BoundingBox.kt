@@ -14,6 +14,7 @@ package com.languagecomputer.services.multimodal
  *    Images: bounding box is an actual bounding box.
  *            (x1, y1) is the top left corner, (x2, y2) is the bottom right.
  *            startTimeMillis and endTimeMillis are unused and should be set to 0.
+ *            In the image, (0, 0) is the top left corner pixel and (width -1, height -1) is the bottom right corner pixel, so we are using 0-based integer-based pixel coordinate system.
  * <br />
  * <br />
  * 3-d payloads (e.g. Video) use all fields.

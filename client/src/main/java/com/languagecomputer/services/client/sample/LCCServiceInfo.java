@@ -17,11 +17,12 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Get the list of LCC services and their URLs from the main service
+ * Get the list of LCC services and their URLs from the config service
  *
  * @author smonahan
  */
 public class LCCServiceInfo {
+  // The services by default run at $HOST/api/config
   private static final String CONFIG_SERVICE_ENDPOINT = "/api/config";
   private final ConfigService configService;
   private final URI baseURL;
@@ -45,23 +46,29 @@ public class LCCServiceInfo {
    *                                  service name is invalid.
    */
   public URI getURIForService(String service) {
-    ///api/config/services/{serviceName}/endpoint
     final String path = configService.getEndpointForService(service);
     URI address = UriBuilder.fromUri(baseURL).replacePath(path).build();
-    SampleOutput.outputErr("using address " + address + " for " + service + " from " + baseURL + " and " + path);
+    SampleOutput.println("using address " + address + " for " + service + " from " + baseURL + " and " + path + " for port "+ baseURL.getPort());
     return address;
   }
 
+  /**
+   * Wraps getURIForService and returns an instance of the interface class
+   * @param serviceName - The service we are loading
+   * @param serviceClass - The interface class we are casting the result to
+   * @return - An instance of the interface class
+   * @param <T> - The interface class such that the return value doesn't need to be cast
+   */
   public <T> T getService(String serviceName, Class<T> serviceClass) {
     URI uri = getURIForService(serviceName);
-    SampleOutput.outputErr(serviceName + " " + uri + " " + serviceClass.getName());
+    SampleOutput.println(serviceName + " " + uri + " " + serviceClass.getName());
     return RestClients.createWithAuth(uri, serviceClass, token);
   }
 
   /**
-   * Get services available to the config service.  If services provided, it returns the subset
-   * of those that are available.
-   * @param services        Services whose availability we want to know about
+   * Get services available to the config service.
+   * If services are provided, it returns the subset of those that are available.
+   * @param services        Services whose availability we want to know about, or empty for all
    * @return                Services the config service knows are running
    */
   public Set<String> getAvailableServices(String... services){
@@ -84,7 +91,7 @@ public class LCCServiceInfo {
    * the config service at the provided URL
    * @param services        Services whose availability we're requiring
    */
-  public void ensureAvailable(String... services){
+  public boolean ensureAvailable(String... services){
     final Set<String> availableServices = getAvailableServices(services);
     Set<String> unavailableServices = new LinkedHashSet<>();
     for (String service: services){
@@ -97,9 +104,10 @@ public class LCCServiceInfo {
       SampleOutput.println("");
       for (String service: unavailableServices){
         SampleOutput.outputErr(service);
-        System.exit(1);
       }
+      return false;
     }
+    return true;
   }
 
   public ConfigService getConfigService() {
@@ -114,14 +122,17 @@ public class LCCServiceInfo {
     for(String service : services) {
       try {
         JsonNode result = serviceInfo.getConfigService().getServiceInstanceList(service);
-        String address = result.get("addressesWithTimes").get(0).get("uri").toString();
-        SampleOutput.println(service + "\t" + address);
+        String address = result.get("instances").get(0).get("uri").toString();
+        String start = result.get("instances").get(0).get("startInstant").toString();
+        String facets = result.get("instances").get(0).get("serviceFacets").toString();
+        SampleOutput.println(service + "\t" + address + "\t" + start + "\t" + facets);
       } catch (Exception e) {
         SampleOutput.outputErr("failed to get address for: " + service);
       }
     }
   }
 
+  // Interface wrapping LCC's Config Service.  Outside of this class, we do not anticipate significant integration with this.
   @Path("")
   public interface ConfigService {
     @GET
@@ -144,9 +155,13 @@ public class LCCServiceInfo {
     @Produces(MediaType.APPLICATION_JSON)
     String getServicesWithFacet(@PathParam("facet") ServiceFacet facet);
 
+    // Mirrors an enum in LCC proprierty code
     enum ServiceFacet {
       OUTPUTTER,
-      FACETED_FRAME_INDEX
+      FACETED_FRAME_INDEX,
+      MODULITH,
+      ANALYTIC,
+      ONTOLOGY_AWARE
     }
   }
 }

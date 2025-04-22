@@ -3,6 +3,7 @@ package com.languagecomputer.services.docprocess;
 import com.google.common.util.concurrent.Uninterruptibles;
 import com.languagecomputer.services.job.Job;
 
+import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
@@ -23,7 +24,6 @@ public class DocumentProcessingDriver {
     this.level = level;
   }
 
-
   public DocumentProcessingStatusDetail getStatus(Long jobId) {
     return getStatus(client, jobId);
   }
@@ -36,22 +36,26 @@ public class DocumentProcessingDriver {
     return client.createNewDocument(job);
   }
 
-  public String createOrUpdateDocument(DocumentJob job, String outputterType, boolean b) {
-    return client.createOrUpdateDocument(job, outputterType, b);
+  public String createOrUpdateDocument(DocumentJob job, String outputterType, boolean doReprocess) {
+    return client.createOrUpdateDocument(job, outputterType, doReprocess);
   }
 
-  public void processAndWait(Iterable<DocumentJob> documentJobs,
-                             Consumer<DocumentProcessingStatusDetail> update,
-                             Long waitMs) {
-    for(DocumentJob documentJob : documentJobs) {
-      DocumentProcessingStatusDetail statusDetail;
-      do {
-        statusDetail = getStatus(documentJob.getJobId());
-        update.accept(statusDetail);
-        Uninterruptibles.sleepUninterruptibly(waitMs, TimeUnit.MILLISECONDS);
-      } while (statusDetail == null || statusDetail.getStatuses().stream().anyMatch(
-          s ->  s != null && s.getStatus()!=null && !s.getStatus().isFinished()
-      ));
+  public void waitForJobs(Collection<Long> jobids,
+                          Consumer<DocumentProcessingStatusDetail> update,
+                          Long waitMs) {
+    for(Long jobid : jobids) {
+      waitForJob(jobid, update, waitMs);
+    }
+  }
+
+  public void waitForJob(Long jobid,
+                         Consumer<DocumentProcessingStatusDetail> update,
+                         Long waitMs) {
+    DocumentProcessingStatusDetail statusDetail = null;
+    while (statusDetail == null || statusDetail.stillWorking()) {
+      statusDetail = getStatus(jobid);
+      update.accept(statusDetail);
+      Uninterruptibles.sleepUninterruptibly(waitMs, TimeUnit.MILLISECONDS);
     }
   }
 

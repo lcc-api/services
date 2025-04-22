@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.languagecomputer</groupId>
     <artifactId>services-parent</artifactId>
-    <version>231027</version>
+    <version>250411.1-SNAPSHOT</version>
   </parent>
   <artifactId>services-client</artifactId>
   <name>${project.artifactId}</name>
@@ -25,7 +25,7 @@
     </dependency>
     <dependency>
       <groupId>com.languagecomputer</groupId>
-      <artifactId>services-api</artifactId>
+      <artifactId>services-common</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -42,6 +42,10 @@
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-maven-plugin</artifactId>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>

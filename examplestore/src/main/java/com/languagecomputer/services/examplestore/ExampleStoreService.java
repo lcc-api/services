@@ -7,6 +7,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Interface to interact with the ATESSA example store, which stores interesting examples of various concepts in the ontology.
@@ -118,17 +119,6 @@ public interface ExampleStoreService {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   ExampleUpdateResult updateExample(@PathParam("id") final String exampleID, final Example updatedExample);
-
-  /**
-   * Similar to updateExample, except in bulk.
-   * @param examples - The examples to update.
-   * @return - boolean indicating success.
-   */
-  @POST
-  @Path("/examples/bulkupdate")
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  ExampleUpdateResult updateExamples(final Collection<Example> examples);
 
   /**
    * Associate a human key with an example.

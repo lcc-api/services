@@ -5,12 +5,14 @@ package com.languagecomputer.services.job
  *
  * This includes the name, id, the status of the job (ongoing, completed, etc.), and an integer representing the progress.
  */
-class JobStatus @JvmOverloads constructor(val jobName: String?,
-                                          val jobID: String?,
-                                          val statusType: JobState?,
-                                          val progress: Int?,
-                                          /** this should be null if no error occurred or contain an error message if the job failed.  */
-                                          val errorMessage: String? = null) {
+class JobStatus @JvmOverloads constructor(
+    val jobName: String?,
+    val jobID: String?,
+    val statusType: JobState?,
+    val progress: Int?,
+    /** this should be null if no error occurred or contain an error message if the job failed.  */
+    val errorMessage: String? = null
+) {
 
   override fun equals(other: Any?): Boolean {
     if(this === other) return true

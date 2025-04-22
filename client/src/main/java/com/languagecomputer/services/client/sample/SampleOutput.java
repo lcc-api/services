@@ -7,12 +7,13 @@ import java.io.PrintStream;
  * Output wrapper designed to encapsulate output for sample applications such that it can later be swapped out with a logger.
  *
  * A logger is not currently used to minimize the third party dependencies and enable users to swap in their own logging system.
+ *
  * @author smonahan
  */
 public class SampleOutput {
 
-  private static final PrintStream out = System.out;
-  private static final PrintStream err = System.err;
+  private static PrintStream out = System.out;
+  private static PrintStream err = System.err;
 
   private SampleOutput() {}
 
@@ -34,5 +35,13 @@ public class SampleOutput {
 
   public static void outputException(IOException e) {
     e.printStackTrace(err);
+  }
+
+  public static void setErrorStream(PrintStream errStream) {
+    err = errStream;
+  }
+
+  public static void setOutputStream(PrintStream outStream) {
+    out = outStream;
   }
 }

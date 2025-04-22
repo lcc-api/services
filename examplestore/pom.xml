@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.languagecomputer</groupId>
     <artifactId>services-parent</artifactId>
-    <version>231027</version>
+    <version>250411.1-SNAPSHOT</version>
   </parent>
   <groupId>com.languagecomputer</groupId>
   <artifactId>examplestore</artifactId>
@@ -16,7 +16,7 @@
   <dependencies>
     <dependency>
       <groupId>com.languagecomputer</groupId>
-      <artifactId>services-api</artifactId>
+      <artifactId>services-common</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

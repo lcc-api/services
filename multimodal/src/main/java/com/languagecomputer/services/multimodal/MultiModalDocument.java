@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
 import com.languagecomputer.services.multimodal.tables.Table;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -20,7 +19,7 @@ import java.util.TreeMap;
  *
  * @author stuart
  */
-public class MultiModalDocument {
+public class MultiModalDocument implements CommonDocProperties {
   @Nonnull
   private final String id;
   @Nonnull
@@ -34,6 +33,16 @@ public class MultiModalDocument {
   private final Map<Integer, Table> tables;
 
   private int nextBlockId = 0;
+
+  @Nonnull
+  @Override
+  public String getTitle() {
+    String title = metadata.get("TITLE");
+    if (title != null) {
+      return title;
+    }
+    return id;
+  }
 
   public static MultiModalDocument fromPlainText(String id, String plainText) {
     return fromPlainText(id, plainText, new HashMap<>());
@@ -84,12 +93,12 @@ public class MultiModalDocument {
     this.nextBlockId = nextBlockId;
   }
 
-  @NotNull
+  @Nonnull
   public String getId() {
     return id;
   }
 
-  @NotNull
+  @Nonnull
   public Map<Integer, MultiModalBlock> getBlocks() {
     return blocks;
   }
@@ -117,5 +126,12 @@ public class MultiModalDocument {
   @JsonProperty("next_id")
   public int getNextBlockId() {
     return nextBlockId;
+  }
+
+  @Nonnull
+  @Override
+  @JsonIgnore
+  public Map<String, String> getMetaData() {
+    return getMetadata();
   }
 }

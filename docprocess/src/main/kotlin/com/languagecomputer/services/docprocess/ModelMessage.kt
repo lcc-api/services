@@ -2,8 +2,6 @@ package com.languagecomputer.services.docprocess
 
 import com.languagecomputer.services.examplestore.ExampleStoreQuery
 import com.languagecomputer.services.ontology.ConceptIdentifier
-import com.languagecomputer.services.util.fromJson
-import com.languagecomputer.services.util.toJson
 
 /**
  * Message used to communicate with model service how to train a new machine learning model.
@@ -47,9 +45,9 @@ class ModelMessage @JvmOverloads constructor(var query: ExampleStoreQuery? = nul
     return this
   }
 
-  fun copy() : ModelMessage {
-    return fromJson(toJson(this), ModelMessage::class.java)!!
-  }
+//  fun copy() : ModelMessage {
+//    return fromJson(toJson(this), ModelMessage::class.java)!!
+//  }
 
   override fun hashCode(): Int {
     var result = if(query != null) query.hashCode() else 0

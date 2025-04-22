@@ -5,7 +5,6 @@ import com.languagecomputer.services.client.sample.LCCServiceInfo;
 import com.languagecomputer.services.client.sample.SampleOutput;
 
 import java.net.URI;
-import java.util.Objects;
 
 /**
  * Utility to get job status for a job

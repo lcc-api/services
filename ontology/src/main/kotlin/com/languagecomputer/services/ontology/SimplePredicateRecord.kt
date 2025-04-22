@@ -20,7 +20,7 @@ class SimplePredicateRecord : SimpleOntologyRecord {
   private constructor() : super(ConceptClass.PREDICATE_TRIGGER, "predicates") {}
 
   fun copy(): SimplePredicateRecord {
-    val dupRoles = roles!!.stream().map { obj: SimplePredicateRole -> obj.copy() }.collect(Collectors.toList())
+    val dupRoles = roles!!.stream().map { obj: SimplePredicateRole -> obj.copy() }.collect(Collectors.toUnmodifiableList())
     val dupChildren: Set<ConceptIdentifier> = if(children == null) HashSet() else HashSet<ConceptIdentifier>(children)
     val dupProps: Map<String, Any?> = if(props == null) HashMap() else HashMap<String, Any>(props)
     return SimplePredicateRecord(name, parent, definition, label, dupChildren, dupProps, dupRoles)

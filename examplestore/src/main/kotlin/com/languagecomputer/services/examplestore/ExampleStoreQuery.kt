@@ -1,10 +1,7 @@
 package com.languagecomputer.services.examplestore
 
 import com.google.common.base.MoreObjects
-import com.languagecomputer.services.util.readValue
-import com.languagecomputer.services.util.toJson
 import javax.annotation.Nonnegative
-
 
 /**
  * Query used to request examples from an example store service
@@ -16,6 +13,8 @@ class ExampleStoreQuery @JvmOverloads constructor(
     var recurseConcept: Boolean = false,
     var lemmatize: Boolean = true,
     var searchTerms: Set<String> = HashSet(),
+    // if want to search within specific example IDs
+    var exampleIds: Set<String> = HashSet(),
     var subExample1: String? = null,
     var subExample2: String? = null,
     var attributeValues: Set<String> = HashSet(),
@@ -42,71 +41,12 @@ class ExampleStoreQuery @JvmOverloads constructor(
       -a.getProperties().getOrDefault(":conf", "1")!!.toDouble().compareTo(b.getProperties().getOrDefault(":conf", "1")!!.toDouble())
     }),
     RANDOM(Comparator<Example> { _: Example, _: Example -> 1});
-
-    companion object {
-      private fun sortByHumanKey(a: Example, b: Example): Int {
-        if (a.humanCall != b.humanCall) {
-          return a.humanCall!!.compareTo(b.humanCall!!)
-        } else {
-          return a.tokenLength - b.tokenLength
-        }
-      }
-
-      private fun sortByTrigger(a: Example, b: Example): Int {
-        val sb1 = StringBuilder()
-        val sb2 = StringBuilder()
-        sb1.append(if (a.trigger.isNotBlank()) a.trigger.lowercase() else "zzz").append(a.tokenLength)
-        sb2.append(if (b.trigger.isNotBlank()) b.trigger.lowercase() else "zzz").append(b.tokenLength)
-        return sb1.toString().compareTo(sb2.toString())
-      }
-
-      private fun sortByDocument(a: Example, b: Example): Int {
-        if (a.documentID != null && b.documentID != null) {
-          val cmp = a.documentID.compareTo(b.documentID)
-          if (cmp != 0) {
-            return cmp
-          }
-          return sortWithinDocument(a, b);
-        } else if (a.documentID != null) {
-          return -1
-        } else if (b.documentID != null) {
-          return 1
-        } else {
-          var cmp = a.concept!!.compareTo(b.concept!!)
-          if (cmp == 0) {
-            cmp = a.iD!!.compareTo(b.iD!!)
-          }
-          return cmp
-        }
-      }
-
-      private fun sortWithinDocument(a: Example, b: Example): Int {
-        var cmp = a.sentenceNumber.compareTo(b.sentenceNumber)
-        if (cmp != 0) {
-          return cmp
-        }
-        // DBG
-        val aStart = if (a.startToken < 0) a.startToken2 else a.startToken
-        val bStart = if (b.startToken < 0) b.startToken2 else b.startToken
-        cmp = Integer.compare(aStart, bStart)
-        if (cmp != 0) {
-          return cmp
-        }
-        val aLength = if (a.tokenLength <= 0) a.tokenLength2 else a.tokenLength
-        val bLength = if (b.tokenLength <= 0) b.tokenLength2 else b.tokenLength
-        return aLength - bLength
-      }
-    }
   }
 
   fun sortMethod(): Comparator<in Example>? {
     return sortMethod.sortMethod
   }
 
-  fun copy(): ExampleStoreQuery {
-    // use JSON marshalling to deep copy the object
-    return readValue(toJson(this)!!, ExampleStoreQuery::class.java)!!
-  }
 
   fun unlimited() : ExampleStoreQuery {
     resultLimit = Int.MAX_VALUE
@@ -168,6 +108,19 @@ class ExampleStoreQuery @JvmOverloads constructor(
     return this
   }
 
+    fun exampleId(exampleId: String?) : ExampleStoreQuery {
+        if (exampleId == null) {
+            this.exampleIds += Example.NULL_STRING_FIELD
+        } else {
+            this.exampleIds += exampleId
+        }
+        return this
+    }
+
+    fun exampleIds(exampleIds: Collection<String?>): ExampleStoreQuery? {
+        exampleIds.forEach{ exampleId(it) }
+        return this
+    }
 
   fun extractor(extractor: String) : ExampleStoreQuery {
     extractors += extractor
@@ -228,6 +181,7 @@ class ExampleStoreQuery @JvmOverloads constructor(
             .add("lemmatize", lemmatize)
             .add("pos", pos)
             .add("searchTerms", searchTerms)
+            .add("exampleIds", exampleIds)
             .add("resultLimit", resultLimit)
             .add("extractors", extractors)
             .add("humanCall", humanCall)
@@ -250,4 +204,57 @@ class ExampleStoreQuery @JvmOverloads constructor(
     private const val serialVersionUID = -305856142817757013L
   }
 
+}
+
+// these methods had to be moved here for the bump to kotlin 1.9.20
+private fun sortByHumanKey(a: Example, b: Example): Int {
+  if (a.humanCall != b.humanCall) {
+    return a.humanCall!!.compareTo(b.humanCall!!)
+  } else {
+    return a.tokenLength - b.tokenLength
+  }
+}
+
+private fun sortByTrigger(a: Example, b: Example): Int {
+  val sb1 = StringBuilder()
+  val sb2 = StringBuilder()
+  sb1.append(if (a.trigger.isNotBlank()) a.trigger.lowercase() else "zzz").append(a.tokenLength)
+  sb2.append(if (b.trigger.isNotBlank()) b.trigger.lowercase() else "zzz").append(b.tokenLength)
+  return sb1.toString().compareTo(sb2.toString())
+}
+
+private fun sortByDocument(a: Example, b: Example): Int {
+  if (a.documentID != null && b.documentID != null) {
+    val cmp = a.documentID.compareTo(b.documentID)
+    if (cmp != 0) {
+      return cmp
+    }
+    return sortWithinDocument(a, b);
+  } else if (a.documentID != null) {
+    return -1
+  } else if (b.documentID != null) {
+    return 1
+  } else {
+    var cmp = a.concept!!.compareTo(b.concept!!)
+    if (cmp == 0) {
+      cmp = a.iD!!.compareTo(b.iD!!)
+    }
+    return cmp
+  }
+}
+
+private fun sortWithinDocument(a: Example, b: Example): Int {
+  var cmp = a.sentenceNumber.compareTo(b.sentenceNumber)
+  if (cmp != 0) {
+    return cmp
+  }
+  val aStart = if (a.startToken < 0) a.startToken2 else a.startToken
+  val bStart = if (b.startToken < 0) b.startToken2 else b.startToken
+  cmp = Integer.compare(aStart, bStart)
+  if (cmp != 0) {
+    return cmp
+  }
+  val aLength = if (a.tokenLength <= 0) a.tokenLength2 else a.tokenLength
+  val bLength = if (b.tokenLength <= 0) b.tokenLength2 else b.tokenLength
+  return aLength - bLength
 }

@@ -5,11 +5,11 @@
   <artifactId>services-parent</artifactId>
   <name>${project.artifactId}</name>
   <packaging>pom</packaging>
-  <version>231027</version>
+  <version>250411.1-SNAPSHOT</version>
 
   <properties>
     <jersey.version>2.29.1</jersey.version>
-    <kotlin.version>1.6.20</kotlin.version>
+    <kotlin.version>1.9.20</kotlin.version>
     <lcc.distributionManagement.repository.url>file:///main/m2/</lcc.distributionManagement.repository.url>
     <lcc.distributionManagement.snapshotRepository.url>${lcc.distributionManagement.repository.url}</lcc.distributionManagement.snapshotRepository.url>
     <lcc.distributionManagement.site.url>file:///home/lcc/public_html/projects</lcc.distributionManagement.site.url>
@@ -17,17 +17,21 @@
     <jackson.version>2.13.2</jackson.version>
     <apache.cxf.version>3.3.0</apache.cxf.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <junit.version>5.5.2</junit.version>
   </properties>
 
   <modules>
-    <module>api</module>
+    <module>common</module>
     <module>client</module>
     <module>filestore</module>
-    <module>vectorstore</module>
     <module>examplestore</module>
     <module>ontology</module>
     <module>job</module>
+    <module>domainlibrary</module>
+    <module>spatial</module>
+    <module>wikipedia</module>
     <module>docprocess</module>
+    <module>jolter</module>
     <module>multimodal</module>
     <module>mmdocprocess</module>
     <module>mmannstore</module>
@@ -116,6 +120,18 @@
             <jvmTarget>17</jvmTarget>
           </configuration>
         </plugin>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.0.0-M5</version>
+          <configuration>
+            <trimStackTrace>false</trimStackTrace>
+            <redirectTestOutputToFile>true</redirectTestOutputToFile>
+            <argLine>-Xmx8g -Dfile.encoding=UTF-8</argLine>
+            <forkCount>2</forkCount>
+            <reuseForks>false</reuseForks>
+            <useSystemClassLoader>false</useSystemClassLoader>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
@@ -151,4 +167,19 @@
     </profile>
   </profiles>
 
+  <distributionManagement>
+    <repository>
+      <id>lcc-repo</id>
+      <url>file:///main/m2/</url>
+      <uniqueVersion>false</uniqueVersion>
+    </repository>
+    <snapshotRepository>
+      <id>lcc-snapshot-repo</id>
+      <url>${lcc.distributionManagement.snapshotRepository.url}</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+    <site>
+      <url>${lcc.distributionManagement.site.url}</url>
+    </site>
+  </distributionManagement>
 </project>

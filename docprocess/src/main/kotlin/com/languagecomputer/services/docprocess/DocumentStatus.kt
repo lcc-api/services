@@ -15,17 +15,19 @@ class DocumentStatus private constructor(val docID: String?,
                                          var startTime: Long = Instant.now().toEpochMilli(),
                                          var progress: Double = 0.0,
                                          val submissionId: String? = docID,
-                                         val pieceStatuses: List<DocumentJobStatus>) {
+                                         val pieceStatuses: List<DocumentJobStatus>,
+                                         var status: DocumentJobStatus? = null) {
   init {
     submissionName = submissionName ?: submissionId
-    setStatus()
+    if(status == null) {
+      setStatus()
+    }
   }
 
-  var status: DocumentJobStatus? = null
   var endTime: Long = -1
 
   private fun setStatus() {
-    status = if(pieceStatuses.size == 0) DocumentJobStatus(StatusCategory.UNPROCESSED) else Collections.min(pieceStatuses)
+    status = if(pieceStatuses.isEmpty()) DocumentJobStatus(StatusCategory.UNPROCESSED) else Collections.min(pieceStatuses)
   }
 
   private fun <T> groupBy(groupFn: Function<DocumentJobStatus, T>): String {
@@ -50,6 +52,7 @@ class DocumentStatus private constructor(val docID: String?,
     private var progress: Double = 0.0
     private var startTime: Long = 0
     private var pieceStatuses: MutableList<DocumentJobStatus> = Lists.newArrayList()
+    private var jobStatus: DocumentJobStatus? = null
 
     constructor(status: DocumentStatus) {
       copy(status)
@@ -63,6 +66,11 @@ class DocumentStatus private constructor(val docID: String?,
       this.docID = docID
       this.batchInfo = batchInfo
       startTime = Date().time
+    }
+
+    fun jobStatus(jobStatus: DocumentJobStatus? = null): Builder {
+      this.jobStatus = jobStatus;
+      return this;
     }
 
     fun docID(docID: String?): Builder {
@@ -126,8 +134,7 @@ class DocumentStatus private constructor(val docID: String?,
     }
 
     fun build(): DocumentStatus {
-      val status = DocumentStatus(docID, submissionName, batchInfo, startTime, progress, submissionId, pieceStatuses)
-      status.setStatus()
+      val status = DocumentStatus(docID, submissionName, batchInfo, startTime, progress, submissionId, pieceStatuses, jobStatus)
 
       if(status.status!!.isFinished()) {
         status.endTime = Instant.now().toEpochMilli()

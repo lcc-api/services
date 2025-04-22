@@ -17,10 +17,26 @@ data class Utterance(
     val text: String,
     override val startTimeMillis: Int,
     override val endTimeMillis: Int,
-): Timed
+): Timed {
+  init {
+    check(endTimeMillis > startTimeMillis) { "start time >= end time (start=$startTimeMillis, end=$endTimeMillis) text=$text"}
+  }
+}
+
+data class CreateTranscript(
+  val utterances: List<Utterance>,
+  val source: String,
+  val metaData: Map<String, String> = emptyMap(),
+  val parentDocID: String? = null,
+)
 
 data class Transcript(
     val source: String,
-    val docId: String,
+    override val id: String,
     val utterances: List<Utterance>,
-)
+    override val metaData: Map<String, String> = mutableMapOf(),
+    override val parents: List<String>
+): CommonDocProperties, AtomicDocProps {
+    override val title: String
+        get() = metaData["TITLE"] ?: id
+}

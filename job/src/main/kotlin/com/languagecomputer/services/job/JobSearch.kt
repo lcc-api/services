@@ -14,29 +14,15 @@ package com.languagecomputer.services.job
                             Jobs containing props keys which are not specified in the search are not filtered out;
                             i.e. if jobSearch.props is an empty map, the result set is unaffected
  * @property parentJobId    job must be a child of the job with id parentJobId
- * @property userId         userId must be present and equal to the provided value
  * @property state          state must be present and equal to the provided value
  */
 data class JobSearch @JvmOverloads constructor(
     var name: String? = null,
-    var props: Map<Job.PropertyKey, String> = mutableMapOf(),
+    var props: Map<JobPropertyKey, String> = mutableMapOf(),
     var parentJobId: Long? = null,
+    var jobIds: Collection<Long>? = null,
 
-    var userId: String? = null,
     var state: JobState? = null) {
 
-    //Note: constructor if searching for job(s) not by name
-    @Suppress("unused")
-    @JvmOverloads constructor(props: Map<Job.PropertyKey, String>, parentJobId: Long? = null, userId: String? = null, state: JobState? = null) :
-            this(null, props, parentJobId, userId, state)
-
-    //Note: constructor if searching for job(s) not by name nor properties
-    @Suppress("unused")
-    @JvmOverloads constructor(parentJobId: Long?, userId: String? = null, state: JobState? = null) :
-            this(null, mutableMapOf(), parentJobId, userId, state)
-
-    //Note: constructor if searching for job(s) using only user ID and Job state
-    constructor(userId: String?, state: JobState?) :
-            this(null, mutableMapOf(), null, userId, state)
 }
 

@@ -1,5 +1,8 @@
 package com.languagecomputer.services.ontology;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Collection;
@@ -10,6 +13,13 @@ import java.util.Set;
  * Notably, all information learned, extracted, and outputted by LCC will have a corresponding concept in this ontology.
  * @author smonahan
  */
+@OpenAPIDefinition(
+    info=@Info(
+        title = "Ontology Service for information about ontology concepts",
+        version = "1.0.0"
+    )
+)
+@Path("/api/ontology")
 public interface Ontology {
 
   @GET
@@ -34,8 +44,9 @@ public interface Ontology {
 
   /**
    * Searches the ontology for any concept that contains the provided property with the provided value.
+   *
    * @param property The property attached ot the concept.
-   * @param value The value of the property attached to the concept.
+   * @param value    The value of the property attached to the concept.
    * @return A collection of ConceptIdentifiers of all concepts matching the search.
    */
   @GET
@@ -46,7 +57,8 @@ public interface Ontology {
   /**
    * Determine if the concept is one of, or a child of the potentials.
    * As a practical matter, the user should check if potentials.contains(concept) to avoid a web service call.
-   * @param concept - The concept
+   *
+   * @param concept    - The concept
    * @param potentials - The potential things to check
    * @return the set of concepts matching
    */
@@ -81,8 +93,9 @@ public interface Ontology {
 
   /**
    * Deletes a concept from the ontology
+   *
    * @param conceptClass - concept class
-   * @param name - concept to delete
+   * @param name         - concept to delete
    * @return a boolean indicating success or failure
    */
   @DELETE
@@ -115,6 +128,7 @@ public interface Ontology {
 
   @GET
   @Path("/ontology/full")
+  @Produces(MediaType.APPLICATION_JSON)
   String getFullOntology();
 
   @POST
@@ -141,5 +155,15 @@ public interface Ontology {
                                         @QueryParam("property") String property,
                                         OntPropertyValue value,
                                         @QueryParam("append") boolean append
+  );
+
+  @PUT
+  @Path("class/{conceptClass}/concept/{conceptName}/label")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  void setConceptLabel(
+      @PathParam("conceptClass") String conceptClass,
+      @PathParam("conceptName") String conceptName,
+      String newLabel
   );
 }

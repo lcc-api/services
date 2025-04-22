@@ -3,9 +3,6 @@ package com.languagecomputer.services.ontology;
 import com.languagecomputer.services.client.util.CommandLineUtils;
 import com.languagecomputer.services.client.sample.LCCServiceInfo;
 import com.languagecomputer.services.client.sample.SampleOutput;
-import picocli.CommandLine;
-
-import java.net.URI;
 
 import static com.languagecomputer.services.ontology.CreateOntologyType.*;
 
