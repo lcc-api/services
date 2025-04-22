@@ -42,3 +42,7 @@ data class AttributeStoreMessageQuery @JvmOverloads constructor(
 data class AttributeStoreMessageList(
   val attributeStoreMessages: List<AttributeStoreMessage>
 )
+
+data class AttributeStoreMessageMap(
+  val attributeStoreMessages: Map<String, Map<String, Float>>,
+)

@@ -7,6 +7,7 @@ import picocli.CommandLine;
 import java.util.Objects;
 
 /**
+ * Utilities for interacting with the Job Service at the cmdline.
  * @author smonahan
  */
 public class JobArguments extends CommandLineUtils.ServiceArgs {
@@ -28,9 +29,11 @@ public class JobArguments extends CommandLineUtils.ServiceArgs {
     boolean success = printJobStatus(status, 0);
     if(block && status.isStillProcessing()) {
       if (verbose) {
-        success = JobBlocker.blockOnJob(jobid, client, (job, count) -> printJobStatus(job, count), numSeconds);
+        JobState state = JobBlocker.blockOnJob(jobid, client, JobArguments::printJobStatus, numSeconds);
+        success = state == JobState.COMPLETED;
       } else {
-        success = JobBlocker.blockOnJobPrinting(jobid, client, System.out, numSeconds);
+        JobState state = JobBlocker.blockOnJobPrinting(jobid, client, System.out, numSeconds);
+        success = state == JobState.COMPLETED;
       }
     }
     return success;
@@ -38,8 +41,8 @@ public class JobArguments extends CommandLineUtils.ServiceArgs {
 
   private static boolean printJobStatus(Job job, Integer count) {
     SampleOutput.println(count + ": status for job " + job.getId() + " is " + job.getState() + " with completion " + job.getProgress() + "%");
-    if (job.getProp(Job.PropertyKey.STATUS_DESCRIPTION) != null && Objects.requireNonNull(job.getProp(Job.PropertyKey.STATUS_DESCRIPTION)).length() > 0) {
-      SampleOutput.println("\terror message: " + job.getProp(Job.PropertyKey.STATUS_DESCRIPTION));
+    if (job.getProp(JobPropertyKey.STATUS_DESCRIPTION) != null && !job.getProp(JobPropertyKey.STATUS_DESCRIPTION).isEmpty()) {
+      SampleOutput.println("\terror message: " + job.getProp(JobPropertyKey.STATUS_DESCRIPTION));
     }
     return job.getState() == JobState.COMPLETED;
   }

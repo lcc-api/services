@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 
 /**
  * Holds the JobState of a Job.
- * Works in tandem with DocumentJobStatus.
  */
-class JobStateMessage(val state: JobState, val description: String? = null) : Comparable<JobStateMessage?> {
+class JobStateMessage(
+    val state: JobState, 
+    val description: String? = null
+) : Comparable<JobStateMessage?> {
 
   constructor(status: JobState) : this(status, "NONE")
 

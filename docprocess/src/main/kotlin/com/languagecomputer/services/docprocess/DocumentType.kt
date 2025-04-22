@@ -8,6 +8,7 @@ enum class DocumentType {
     LCC_XML_ZIPPED,  // compressed LCC_XML
     LCC_XML_URL,  //Processsed like a URL, but expects LCC_XML to be returned.
     RAW_TEXT,  // Raw text in the payload
+    MULTI_MEDIA_JSON,  // JSON of a MultiMediaJson object used for MultiMedia documents.
     HTML,  // HTML in the payload.  The URL is where this originally came from
     ATEA,  // Used for integration with AFRL ATEA format
     URL,  // There is no payload, the payload should be downloaded from the URL

@@ -8,10 +8,8 @@ import com.languagecomputer.services.util.RestClients;
 import picocli.CommandLine;
 
 import javax.annotation.Nullable;
-import javax.ws.rs.core.UriBuilder;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.URI;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -27,7 +25,6 @@ import static com.languagecomputer.services.docprocess.DocumentProcessingUtils.g
  * @author smonahan
  */
 public class AddDocumentToAtessa {
-  private static final String DOCUMENT_PROCESSING_ENDPOINT = "/api/documentProcessing";
   public static class Arguments extends CommandLineUtils.ServiceArgs {
     @CommandLine.Parameters(index = "0", description = {"Type of document being uploaded.", "Options: ${COMPLETION-CANDIDATES}"}, arity = "1")
     DocumentType type = null;
@@ -58,11 +55,11 @@ public class AddDocumentToAtessa {
 
   final DocumentProcessingDriver driver;
 
-  public AddDocumentToAtessa(URI configURI, DocumentType type, DocumentProcessingLevel.Level processLevel) {
+  public AddDocumentToAtessa(URI configURI, DocumentType type, DocumentProcessingLevel.Level processLevel, String token) {
     driver = new DocumentProcessingDriver(
         type,
-        RestClients.create(UriBuilder.fromUri(configURI).replacePath(DOCUMENT_PROCESSING_ENDPOINT).build(), DocumentProcessingService.class, 20, TimeUnit.MINUTES),
-        new DocumentProcessingLevel(processLevel, processLevel == DocumentProcessingLevel.Level.EXAMPLE ? ExampleUpdateStrategy.ADD_OR_UPDATE_ALL : ExampleUpdateStrategy.NONE)
+        RestClients.createWithAuth(configURI, DocumentProcessingService.class, token, 20, TimeUnit.MINUTES),
+        DocumentProcessingLevel.fromLevel(processLevel)
     );
   }
 
@@ -70,41 +67,27 @@ public class AddDocumentToAtessa {
     return driver;
   }
 
-  public List<DocumentJob> process(Collection<String> paths, String batchId) throws IOException {
+  public List<Long> process(Collection<String> paths, String batchId) throws IOException {
     return process(paths, batchId, null, null);
   }
 
-  protected List<DocumentJob> submitJobs(List<File> files, String jobName, List<String> stages) throws IOException {
+  protected List<Long> submitJobs(List<File> files, String jobName, List<String> stages) throws IOException {
     int count = 0;
-    Set<DocumentJob> jobIds = new TreeSet<>(Comparator.comparing(DocumentJob::getJobId));
-
-    Long firstJobId = null;
-
     int failed = 0;
-    if(stages != null && !stages.isEmpty()) {
-      SampleOutput.println("using custom stages " + stages);
-    }
-    for (File file: files){
+    Set<Long> jobIds = new HashSet<>();
+    Long firstJobId = null;
+    for (File file : files){
       SampleOutput.print("\rdocument #" + (++count) + " ");
-      DocumentJob documentJob = getDocumentJob(file, jobName, stages, getDriver().getType(), getDriver().getLevel());
-      if(stages != null && !stages.isEmpty()) {
-        documentJob.setStages(stages);
-      }
-      documentJob.setJobId(firstJobId);
-      Job job = null;
-      try {
-        job = getDriver().process(documentJob);
-        if (firstJobId == null) {
-          firstJobId = job.getId();
-          documentJob.setJobId(firstJobId);
+      Long jobid = processFile(file, jobName, stages, firstJobId);
+      if(jobid != null) {
+        jobIds.add(jobid);
+        if(firstJobId == null) {
+          firstJobId = jobid;
         }
-        jobIds.add(documentJob);
-      } catch(Exception e) {
+      } else {
         failed++;
-        SampleOutput.outputErr("Caught error processing " + file.getName());
-        if(failed > 10 && count / 5 < failed) {
+        if (failed > 10 && count / 5 < failed) {
           SampleOutput.outputErr("breaking with " + failed + " out of " + count + " documents");
-          break;
         }
       }
     }
@@ -115,6 +98,19 @@ public class AddDocumentToAtessa {
     return new ArrayList<>(jobIds);
   }
 
+  public Long processFile(File file, String jobName, List<String> stages, Long firstJobId) throws IOException {
+    DocumentJob documentJob = getDocumentJob(file, jobName, stages, getDriver().getType(), getDriver().getLevel());
+    // This bit of machinery will let you use the same "batch job id" for a set of documents, to make tracking status a lot simpler
+    documentJob.setJobId(firstJobId);
+    try {
+      Job job = getDriver().process(documentJob);
+      return job.getId();
+    } catch (Exception e) {
+      SampleOutput.outputErr("Caught error " + e.getMessage() + " processing " + file.getName());
+      return null;
+    }
+  }
+
   /**
    * Starts processing files and returns job ids for started jobs.
    * @param paths - paths to files/directories of files to process.
@@ -122,13 +118,39 @@ public class AddDocumentToAtessa {
    * @param limit - if non-null, limits the number of files processed.
    * @return -
    */
-  public List<DocumentJob> process(Collection<String> paths, String jobName, @Nullable Integer limit, List<String> stages) throws IOException {
+  public List<Long> process(Collection<String> paths, String jobName, @Nullable Integer limit, List<String> stages) throws IOException {
     List<File> files = getFilesRecursive(paths);
     if (limit != null && files.size() > limit) {
       files = files.subList(0, limit);
     }
     SampleOutput.println("found " + files.size() + " files to process");
     return submitJobs(files, jobName, stages);
+  }
+
+  private static void trackJobs(AddDocumentToAtessa addDocumentToAtessa, Arguments args, List<String> stageList) throws IOException {
+    List<Long> documentJobs = addDocumentToAtessa.process(args.files, args.jobName, args.limit, stageList);
+    SampleOutput.outputErr("waiting for " + documentJobs.size() + " jobs to complete");
+    addDocumentToAtessa.getDriver().waitForJobs(documentJobs, statusDetail-> {
+      List<DocumentStatus> statuses = statusDetail.getStatuses();
+      long nullCount = statuses.stream().filter(s -> s.getStatus() == null).count();
+      long failed = statuses.stream().filter(s -> s.getStatus()!=null && s.getStatus().isUnsuccessfullyFinished() ).count();
+      long success = statuses.stream().filter(s -> s.getStatus()!=null && s.getStatus().isSuccessfullyFinished() ).count();
+      long waiting = statuses.stream().filter(s -> s.getStatus()!=null && !s.getStatus().isFinished()).count();
+      StringBuilder sb = new StringBuilder();
+      if(nullCount > 0) {
+        sb.append("NULL:").append(nullCount).append(" ");
+      }
+      if(failed > 0) {
+        sb.append("failed:").append(failed).append(" ");
+      }
+      if(success > 0) {
+        sb.append("completed: ").append(success).append(" ");
+      }
+      if(waiting > 0) {
+        sb.append("in progress: ").append(waiting);
+      }
+      SampleOutput.outputErr(sb.toString());
+    },5000L);
   }
 
   public static void main(String[] rawArgs) throws IOException {
@@ -139,7 +161,7 @@ public class AddDocumentToAtessa {
     }
 
     SampleOutput.println("Adding documents of type " + args.type + " to " + args.configURL);
-    AddDocumentToAtessa addDocumentToAtessa = new AddDocumentToAtessa(args.configURL, args.type, args.processLevel);
+    AddDocumentToAtessa addDocumentToAtessa = new AddDocumentToAtessa(args.configURL, args.type, args.processLevel, args.token);
     List<String> stageList = new ArrayList<>();
     if(args.stages != null) {
       Collections.addAll(stageList, (args.stages.split(",")));
@@ -149,24 +171,10 @@ public class AddDocumentToAtessa {
       }
     }
     if(args.trackFiles) {
-      List<DocumentJob> documentJobs = addDocumentToAtessa.process(args.files, args.jobName, args.limit, stageList);
-      addDocumentToAtessa.getDriver().processAndWait(documentJobs, statusDetail-> {
-        List<DocumentStatus> statuses = statusDetail.getStatuses();
-        long nullCount = statuses.stream().filter(s -> s.getStatus() == null).count();
-        long un = statuses.stream().filter(s -> s.getStatus()!=null && s.getStatus().isUnsuccessfullyFinished() ).count();
-        long suc = statuses.stream().filter(s -> s.getStatus()!=null && s.getStatus().isSuccessfullyFinished() ).count();
-        long waiting = statuses.stream().filter(s -> s.getStatus()!=null ).count();
-        SampleOutput.outputErr("NULL:" + nullCount + " un:" + un + " suc:" + suc + " wait:" + waiting);
-      },5000L);
+      trackJobs(addDocumentToAtessa, args, stageList);
     } else {
       addDocumentToAtessa.process(new LinkedList<>(args.files), args.jobName, args.limit, stageList);
     }
   }
 
-  public void processAndWait(Collection<String> paths,
-                             Consumer<DocumentProcessingStatusDetail> update,
-                             List<String> stages) throws IOException {
-    List<DocumentJob> documentJobs = process(paths, DEFAULT_JOB_NAME);
-    getDriver().processAndWait(documentJobs, update, 5000L);
-  }
 }

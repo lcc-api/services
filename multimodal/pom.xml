@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.languagecomputer</groupId>
     <artifactId>services-parent</artifactId>
-    <version>231027</version>
+    <version>250411.1-SNAPSHOT</version>
   </parent>
   <artifactId>multimodal</artifactId>
   <name>${project.artifactId}</name>
@@ -15,13 +15,19 @@
   <dependencies>
     <dependency>
       <groupId>com.languagecomputer</groupId>
-      <artifactId>services-api</artifactId>
+      <artifactId>services-common</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
-      <version>5.5.2</version>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.languagecomputer</groupId>
+      <artifactId>services-client</artifactId>
+      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

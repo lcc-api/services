@@ -10,7 +10,6 @@ import java.util.Base64;
 import java.util.Collection;
 import java.util.List;
 import java.util.Spliterator;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 /**
@@ -21,11 +20,11 @@ public class DocumentProcessingUtils {
   private DocumentProcessingUtils() {}
 
   public static List<File> getFilesRecursive(Collection<String> paths) {
-    List<File> filePaths = paths.parallelStream().map(File::new).collect(Collectors.toList());
+    List<File> filePaths = paths.parallelStream().map(File::new).toList();
     Spliterator<File> allFiles = Files.fileTraverser().depthFirstPreOrder(filePaths).spliterator();
     return StreamSupport.stream(allFiles, false)
         .filter(file -> !file.isHidden() && !file.isDirectory()) // Skip hidden files and directories!
-        .collect(Collectors.toList());
+        .toList();
   }
 
   public static DocumentJob getDocumentJob(File file, String jobName, List<String> stages, DocumentType type, DocumentProcessingLevel level) throws IOException {
@@ -34,14 +33,21 @@ public class DocumentProcessingUtils {
       docid = docid.substring(0, docid.lastIndexOf('.'));
     }
     String text = null;
+    String url = null;
     if(file.getName().contains(".pdf") || file.getName().contains(".docx")) {
       byte[] encode = Base64.getEncoder().encode(Files.toByteArray(file));
       text = new String(encode);
+    } else if(type == DocumentType.URL) {
+      url = file.getName();
     } else {
       text = Files.asCharSource(file, StandardCharsets.UTF_8).read();
     }
-    DocumentMessage message = new DocumentMessage(type, docid, Instant.now(), text);
-    DocumentJob job = new DocumentJob.Builder(message, level).jobName(jobName).build();
+    DocumentMessage message = new DocumentMessage(type, docid, Instant.now(), text, url);
+    DocumentJob.Builder builder = new DocumentJob.Builder(message, level);
+    if(jobName != null) {
+      builder.jobName(jobName);
+    }
+    DocumentJob job = builder.build();
     if(stages != null && !stages.isEmpty()) {
       job.setStages(stages);
     }
@@ -58,7 +64,7 @@ public class DocumentProcessingUtils {
         e.printStackTrace();
         return null;
       }
-    }).collect(Collectors.toList());
+    }).toList();
   }
 
 }

@@ -6,9 +6,15 @@ import java.time.Instant
  * Document message with a String payload that can be null
  * See @{link BaseDocumentMessage} for details.
  */
-class DocumentMessage @JvmOverloads constructor(type: DocumentType, documentID: String,
-                                                dateTimeString: String, payload: String? = null,
-                                                url: String? = null, errorMessage: String? = null, user: String? = null) :
+class DocumentMessage @JvmOverloads constructor(
+    type: DocumentType,
+    documentID: String,
+    dateTimeString: String,
+    payload: String? = null,
+    url: String? = null,
+    errorMessage: String? = null,
+    user: String? = null
+) :
     BaseDocumentMessage<String>(type, documentID, dateTimeString, payload, url, errorMessage, user) {
 
     @JvmOverloads

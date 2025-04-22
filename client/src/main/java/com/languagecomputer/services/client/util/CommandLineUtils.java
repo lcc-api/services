@@ -7,6 +7,9 @@ import java.net.URI;
 
 /**
  * Utilities for command line parsing for sample code executing this library
+ *
+ * The primary arguments are the config URL (where LCC's services are running)
+ * and the authentication token, which you can find in your user account in the ATESSA UI.
  * @author stuart
  */
 public class CommandLineUtils {
@@ -22,10 +25,10 @@ public class CommandLineUtils {
   }
 
   public static class ServiceArgs extends BaseArgs {
-    @CommandLine.Option(names = {"--configURL", "--config-url"}, description = {"the location of the config service"})
+    @CommandLine.Option(names = {"--configURL", "--config-url"}, description = {"the location of the config service, e.g. https://IP:8085/"})
     public URI configURL;
 
-    @CommandLine.Option(names = {"--token"}, description = {"the auth token we are using"})
+    @CommandLine.Option(names = {"--token"}, description = {"the auth token for your user account"})
     public String token;
   }
 

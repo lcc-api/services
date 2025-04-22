@@ -21,9 +21,10 @@ import java.util.List;
     info=@Info(
         title = "Document Processing Interface",
         description = " Process and Update documents with gnerly from this service.",
-        version = "0.1"
+        version = "1.0.0"
     )
 )
+@Path("/api/documentProcessing")
 public interface DocumentProcessingService {
 
   /**
@@ -41,7 +42,7 @@ public interface DocumentProcessingService {
   /**
    * Update the index for all the documents at the specified level, and update the example versions pending the processing level
    * @param current - This is the level of the documents that we are going to update
-   * @param dpconfig - For all of the documents specified, apply dpconfig to update
+   * @param dpconfig - For all the documents specified, apply dpconfig to update
    * @return the job status indicator for the job this starts, since this method returns fast, while the processing is slow
    */
   @Operation(description = "Update the index for all the documents at the specified level, and update the example versions pending the processing level")
@@ -77,7 +78,7 @@ public interface DocumentProcessingService {
       description = "Add document to index from stream",
       requestBody = @RequestBody(content = {@Content(schema = @Schema(implementation = CreateDocumentRequest.class))}))
   @POST
-  @Path("create")
+  @Path("createMultipart")
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   @Produces(MediaType.APPLICATION_JSON)
   Job createNewDocument(RawDocumentJob job);

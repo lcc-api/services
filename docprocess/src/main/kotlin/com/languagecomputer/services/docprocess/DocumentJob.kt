@@ -15,7 +15,7 @@ class DocumentJob constructor(
 ) : BaseDocumentJob<String, DocumentMessage>(message, updateTo, props, modelMessage, jobName, jobId){
 
   override fun toString(): String {
-    return "DocumentJob[jobName=$jobName,jobId=$jobId,updateTo=$updateTo,props=$props]"
+    return "DocumentJob[jobName=$jobName,jobId=$jobId,updateTo=$updateTo,props=$props,stages=$stages]"
   }
 
   class Builder: BaseBuilder<String, DocumentMessage, DocumentJob, Builder> {

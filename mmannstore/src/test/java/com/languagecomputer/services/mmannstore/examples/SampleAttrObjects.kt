@@ -62,7 +62,7 @@ class SampleUploadArgs: ServiceArgs() {
 fun main(stringArgs: Array<String>) {
   val args = CommandLineUtils.parseArgs(SampleUploadArgs(), stringArgs)
   val annotationStore = LCCServiceInfo(args)
-    .getService("MM_DOCUMENT_STORE", MultimodalAnnotationStore::class.java)
+    .getService("MM_DOCUMENT_STORE", MultimodalEntityExampleStore::class.java)
 
   val loaded = readValue(File(args.jsonFile)
     .readText(), SampleAttrJsonFile::class.java) ?: exitProcess(1)

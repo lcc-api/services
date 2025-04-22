@@ -1,6 +1,8 @@
 package com.languagecomputer.services.ontology
 
 import com.google.common.base.MoreObjects
+import com.google.common.collect.Lists
+import com.google.common.collect.Maps
 import java.util.*
 
 /**
@@ -75,6 +77,10 @@ class SimplePredicateRole : SimpleOntologyRecord {
 }
 
 class SimplePredicateRoleBuilder(private val name: String) {
+  constructor(other: SimplePredicateRole) : this(other.name) {
+    copy(other)
+  }
+
   private var label: String
   private var parent: ConceptIdentifier? = null
   private var definition: String? = null
@@ -86,6 +92,16 @@ class SimplePredicateRoleBuilder(private val name: String) {
     label = name
     children = HashSet()
     props = HashMap()
+  }
+
+  fun copy(other: SimplePredicateRole) : SimplePredicateRoleBuilder {
+    label(other.label)
+    definition(other.definition)
+    predicateName(other.predName)
+    parent(other.parent)
+    children(Lists.newArrayList(other.children))
+    properties(Maps.newHashMap(other.props))
+    return this
   }
 
   fun label(label: String?): SimplePredicateRoleBuilder {
@@ -104,7 +120,7 @@ class SimplePredicateRoleBuilder(private val name: String) {
     return this
   }
 
-  fun parent(parent: ConceptIdentifier): SimplePredicateRoleBuilder {
+  fun parent(parent: ConceptIdentifier?): SimplePredicateRoleBuilder {
     this.parent = parent
     return this
   }
@@ -124,8 +140,9 @@ class SimplePredicateRoleBuilder(private val name: String) {
     return this
   }
 
-  fun setProperty(ontProperty: String, value: Any?) {
+  fun setProperty(ontProperty: String, value: Any?) : SimplePredicateRoleBuilder {
     props[ontProperty] = value
+    return this
   }
 
   fun build(): SimplePredicateRole {

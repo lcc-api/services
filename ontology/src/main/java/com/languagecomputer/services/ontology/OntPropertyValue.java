@@ -12,8 +12,8 @@ public class OntPropertyValue {
   @JsonProperty
   private String result;
   @JsonCreator
-  public OntPropertyValue(@JsonProperty("result")String results) {
-    this.result = results;
+  public OntPropertyValue(String result) {
+    this.result = result;
   }
   public String getResults() {
     return result;

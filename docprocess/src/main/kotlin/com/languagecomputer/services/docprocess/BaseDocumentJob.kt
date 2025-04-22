@@ -115,5 +115,6 @@ open class BaseDocumentJob<T, U: BaseDocumentMessage<T>> @JvmOverloads internal 
         // {order}/{total}
         const val SPLIT_FIELD = "SPLIT_FIELD"
         const val FORCE_EXAMPLE_STORE_ADD = "FORCE_EXAMPLE_STORE_ADD"
+        const val BATCH_JOB_ID = "BATCH_JOB_ID"
     }
 }

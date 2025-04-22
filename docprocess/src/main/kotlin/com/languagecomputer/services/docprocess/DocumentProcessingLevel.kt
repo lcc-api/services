@@ -11,19 +11,28 @@ class DocumentProcessingLevel(
     val level: Level,
     val exampleUpdateStrategy: ExampleUpdateStrategy? = null
 ) {
-  enum class Level {
-    LIGHT, CORE, HEAVY, EXAMPLE
+  enum class Level(val defaultStrategy: ExampleUpdateStrategy) {
+    LIGHT(ExampleUpdateStrategy.NONE),
+    CORE(ExampleUpdateStrategy.NONE),
+    HEAVY(ExampleUpdateStrategy.NONE),
+    EXAMPLE(ExampleUpdateStrategy.ADD_OR_UPDATE_ALL);
+
+    fun usual(): DocumentProcessingLevel = DocumentProcessingLevel(this, defaultStrategy)
+  }
+
+  override fun toString(): String {
+    return "Level[$level:$exampleUpdateStrategy]"
   }
 
   companion object {
     // default conversion from Level to DocumentProcessingLevel
     @JvmStatic
     fun fromLevel(level: Level): DocumentProcessingLevel {
-      when (level) {
-        Level.LIGHT -> return DocumentProcessingLevel(Level.LIGHT, ExampleUpdateStrategy.NONE)
-        Level.CORE -> return DocumentProcessingLevel(Level.CORE, ExampleUpdateStrategy.NONE)
-        Level.HEAVY -> return DocumentProcessingLevel(Level.HEAVY, ExampleUpdateStrategy.NONE)
-        Level.EXAMPLE -> return DocumentProcessingLevel(Level.EXAMPLE, ExampleUpdateStrategy.ADD_OR_UPDATE_ALL)
+      return when (level) {
+        Level.LIGHT -> DocumentProcessingLevel(Level.LIGHT, ExampleUpdateStrategy.NONE)
+        Level.CORE -> DocumentProcessingLevel(Level.CORE, ExampleUpdateStrategy.NONE)
+        Level.HEAVY -> DocumentProcessingLevel(Level.HEAVY, ExampleUpdateStrategy.NONE)
+        Level.EXAMPLE -> DocumentProcessingLevel(Level.EXAMPLE, ExampleUpdateStrategy.ADD_OR_UPDATE_ALL)
       }
     }
   }

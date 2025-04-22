@@ -12,7 +12,7 @@ Each subproject is roughly associated with a single LCC RESTful web service.
 Modules tend to be java interfaces with jax.rs annotations detailing the API, message classes written in Kotlin, with example mains either in the test package or in the client/ module
 
 Subprojects:
-* api
+* common
   * Common objects and interfaces that all modules depend on 
 * client
   * Runtime applications that utilize the other modules
@@ -26,15 +26,21 @@ Subprojects:
     * Keeps track of running jobs throughout LCC's pipeline, enables third party tracking of job status
   * ontology
     * The Ontology is a customizable taxonomy of known concepts that define what is extracted 
-
 * Advanced Services
+  * domainLibrary
+    * Tools for interacting with LCC's library of domain-specific concepts
   * filestore
     * store large files such as videos to avoid having to pass them around multiple times
+  * jolter
+    * Service for generating unsupervised models of the entities, events, relations, and/or topics in the corpus.
   * mmannstore
     * The multimodal annotation store for tracking annotations on top of video/image or various other formats.
   * mmdocprocess
     * The multimodal version of document processing (enables processing of videos, audio, and images)
   * multimodal
     * Message objects for multimodal projects, such as video, audio, and imagery
-  * vectorstore
-    * store vectors for later retrieval or nearest neighbor search
+  * spatial
+    * Tools to explore LCC's gazetteer and shape-files
+  * wikipedia
+    * Tools to explore LCC's model of Wikipedia (which supports extraction and categorization)
+

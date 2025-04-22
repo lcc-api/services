@@ -33,7 +33,7 @@ public class UploadAnnotation {
 
   private static void queryEntityID(String entityId, MultimodalAnnotationStore annstore) {
     AttributeStoreMessageQuery query = new AttributeStoreMessageQuery(entityId);
-    final AttributeStoreMessageList list = annstore.queryAttributeStoreMessage(query, false);
+    final AttributeStoreMessageList list = annstore.queryAttributeStoreMessageList(query);
     SampleOutput.printF("found %d attributes for entity %s\n", list.getAttributeStoreMessages().size(), entityId);
   }
 }

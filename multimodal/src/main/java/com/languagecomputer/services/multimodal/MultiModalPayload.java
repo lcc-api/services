@@ -82,4 +82,9 @@ public class MultiModalPayload {
   public String getFileName() {
     return fileName;
   }
+
+  @Override
+  public String toString() {
+    return "MultiModalPayload type: " + type + " with data " + data;
+  }
 }

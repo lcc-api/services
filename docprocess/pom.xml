@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.languagecomputer</groupId>
     <artifactId>services-parent</artifactId>
-    <version>231027</version>
+    <version>250411.1-SNAPSHOT</version>
   </parent>
   <groupId>com.languagecomputer</groupId>
   <artifactId>docprocess</artifactId>
@@ -16,17 +16,22 @@
   <dependencies>
     <dependency>
       <groupId>com.languagecomputer</groupId>
+      <artifactId>services-common</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.languagecomputer</groupId>
       <artifactId>job</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.languagecomputer</groupId>
-      <artifactId>examplestore</artifactId>
+      <artifactId>services-common</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.languagecomputer</groupId>
-      <artifactId>services-api</artifactId>
+      <artifactId>examplestore</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -38,15 +43,17 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
-      <version>5.5.2</version>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
+    <!-- used for Rest Client creation -->
     <dependency>
       <groupId>com.languagecomputer</groupId>
       <artifactId>services-client</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
+    <!-- used for Job Arguments dependency for one of the test time code -->
     <dependency>
       <groupId>com.languagecomputer</groupId>
       <artifactId>job</artifactId>

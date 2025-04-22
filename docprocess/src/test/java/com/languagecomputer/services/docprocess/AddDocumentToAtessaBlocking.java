@@ -43,13 +43,13 @@ public class AddDocumentToAtessaBlocking extends AddDocumentToAtessa {
 
   private final String outputterType;
 
-  public AddDocumentToAtessaBlocking(URI uri, DocumentType type, String outputterType) {
-    super(uri, type, DocumentProcessingLevel.Level.HEAVY);
+  public AddDocumentToAtessaBlocking(URI uri, DocumentType type, String outputterType, String token) {
+    super(uri, type, DocumentProcessingLevel.Level.HEAVY, token);
     this.outputterType = outputterType;
   }
 
   @Override
-  protected List<DocumentJob> submitJobs(List<File> files, String jobID, List<String> stages) throws IOException {
+  protected List<Long> submitJobs(List<File> files, String jobID, List<String> stages) throws IOException {
     for(File file : files) {
       DocumentJob job = getDocumentJob(file, jobID, stages, getDriver().getType(), getDriver().getLevel());
       SampleOutput.println("Submitting " + job.getMessage().getDocumentID());
@@ -63,9 +63,9 @@ public class AddDocumentToAtessaBlocking extends AddDocumentToAtessa {
 
   public static void main(String[] rawArgs) throws IOException {
     Arguments args = CommandLineUtils.parseArgs(new Arguments(), rawArgs);
-    System.err.println("Adding documents of type " + args.type + " to " + args.configURL + " with output " + args.outputterType);
-    AddDocumentToAtessaBlocking addDocumentToAtessa = new AddDocumentToAtessaBlocking(args.configURL, args.type, args.outputterType);
+    System.err.println("Adding documents of type " + args.type + " to " + args.configURL + " with output " + args.outputterType + " and job name " + args.jobID);
+    AddDocumentToAtessaBlocking adder = new AddDocumentToAtessaBlocking(args.configURL, args.type, args.outputterType, args.token);
     List<File> files = getFilesRecursive(args.files);
-    addDocumentToAtessa.submitJobs(files, args.jobID, null);
+    adder.submitJobs(files, args.jobID, null);
   }
 }

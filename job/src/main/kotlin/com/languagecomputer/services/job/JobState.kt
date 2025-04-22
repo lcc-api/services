@@ -25,5 +25,4 @@ enum class JobState(val isFinished: Boolean) {
 
     constructor() : this(false)
 
-    //Note: function converting from DocumentJobStatus.StatusCategory to JobState is in DocumentJobStatus.kt due to the docprocess repo depending upon the job repo
 }

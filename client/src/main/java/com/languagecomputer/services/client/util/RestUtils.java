@@ -23,7 +23,7 @@ import java.util.function.Function;
  * Utility methods for dealing with REST clients and services.
  *
  * @author wayne
- */
+ **/
 public final class RestUtils {
 
   private RestUtils() {}
@@ -39,7 +39,7 @@ public final class RestUtils {
     // This many not be appropriate for all security environments.
 
     // Make sure these aren't duplicated
-    headers.putSingle("Access-Control-Allow-Origin", "*");
+//    headers.putSingle("Access-Control-Allow-Origin", "*");
     headers.putSingle("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     headers.putSingle("Access-Control-Allow-Headers", "Origin, Accept, Content-Type, X-XRSF-TOKEN");
   }
@@ -101,26 +101,31 @@ public final class RestUtils {
   /**
    * Makes an HTTP GET request, performing no serialization or deserialization.
    *
-   * @param connection - Connection object
+   * @param connection        - Connection object
+   * @param logException
    * @return Response to GET request
    */
-  private static String getResponseFromConnection(URLConnection connection)  throws IOException {
+  private static String getResponseFromConnection(URLConnection connection, boolean logException)  throws IOException {
     // 3. read result
     String text = "";
-    try(
-        final InputStream in = connection.getInputStream();
+    try(final InputStream in = connection.getInputStream();
         final InputStreamReader inr = new InputStreamReader(in)) {
       text = CharStreams.toString(inr);
       return text;
+    } catch(IOException e) {
+      if(logException) {
+        SampleOutput.outputException(e);
+      }
+      throw new RuntimeException(e);
     }
   }
 
-  private static <T> T get(URLConnection connection, Function<String, T> deserializer) throws IOException {
-    return deserializer.apply(getResponseFromConnection(connection));
+  private static <T> T get(URLConnection connection, Function<String, T> deserializer, boolean logException) throws IOException {
+    return deserializer.apply(getResponseFromConnection(connection, logException));
   }
 
   public static <T> T get(URLConnection connection, Class<T> resultClass) throws IOException {
-    return get(connection, getDeserializer(resultClass));
+    return get(connection, getDeserializer(resultClass), true);
   }
 
   /**
@@ -135,20 +140,25 @@ public final class RestUtils {
   }
 
   public static <T> T get(URL url, Class<T> resultClass, String auth)  throws IOException {
+    return get(url, resultClass, auth, true);
+  }
+
+  public static <T> T get(URL url, Class<T> resultClass, String auth, boolean logException)  throws IOException {
     URLConnection connection = getURLConnection(url);
     // TODO: resolve #11196
     connection.setRequestProperty("Authorization", "Basic " + auth);
-    return get(connection, getDeserializer(resultClass));
+    return get(connection, getDeserializer(resultClass), logException);
   }
 
   /**
    * Method performs a post request given a url and a body string.
    *
-   * @param connection  - connection object for url to post message to
-   * @param requestBody - a string containing the message body.
+   * @param connection   - connection object for url to post message to
+   * @param requestBody  - a string containing the message body.
    * @param authToken
+   * @param logException
    */
-  private static String post(URLConnection connection, String requestBody, @Nullable String authToken) throws IOException {
+  private static String post(URLConnection connection, String requestBody, @Nullable String authToken, boolean logException) throws IOException {
     connection.setDoOutput(true); // Triggers POST.
     if(authToken != null) {
       connection.setRequestProperty("Authorization", "Bearer " + authToken);
@@ -162,50 +172,61 @@ public final class RestUtils {
     if(requestBody!=null) {
       output.write(requestBody.getBytes(charset));
     }
-    return getResponseFromConnection(connection);
+    return getResponseFromConnection(connection, logException);
   }
 
-  private static <T> T post(URLConnection connection, String request, Function<String, T> deserializer) throws IOException {
-    return deserializer.apply(post(connection, request, (String)null));
+  private static <T> T post(URLConnection connection, String request, Function<String, T> deserializer, boolean logException) throws IOException {
+    return deserializer.apply(post(connection, request, (String)null, logException));
   }
 
-  private static <T> T postWithBearerAuth(URLConnection connection, String request, String authToken, Function<String, T> deserializer) throws IOException {
-    return deserializer.apply(post(connection, request, authToken));
+  private static <T> T postWithBearerAuth(URLConnection connection, String request, String authToken, Function<String, T> deserializer, boolean logException) throws IOException {
+    return deserializer.apply(post(connection, request, authToken, logException));
   }
 
   /**
    * Overload for requests where we want to do our own serialization and deserialization
    */
   public static String post(URL url, String requestBody) throws IOException {
-    return post(getURLConnection(url), requestBody, (String)null);
+   return post(url, requestBody, true);
+  }
+  public static String post(URL url, String requestBody, boolean logException) throws IOException {
+    return post(getURLConnection(url), requestBody, (String)null, logException);
   }
 
   /**
    * Overload for requests where we want to do our own serialization and deserialization
    */
   public static String postWithBearerAuth(URL url, String requestBody, String authToken) throws IOException {
-    return post(getURLConnection(url), requestBody, authToken);
+    return post(getURLConnection(url), requestBody, authToken, true);
   }
 
   /**
    * Overload for requests where we want to do our own deserialization.
    */
   public static String post(URL url, Object request) throws IOException {
-    return post(getURLConnection(url), getSerializer().apply(request), (String)null);
+    return post(getURLConnection(url), getSerializer().apply(request), (String)null, true);
   }
 
   /**
    * Overload for requests where we've already performed serialization.
    */
   public static <T> T post(URL url, String requestBody, Class<T> responseClass) throws IOException{
-    return post(getURLConnection(url), requestBody, getDeserializer(responseClass));
+    return post(url, requestBody, responseClass, true);
+  }
+
+  public static <T> T post(URL url, String requestBody, Class<T> responseClass, boolean logException) throws IOException{
+    return post(getURLConnection(url), requestBody, getDeserializer(responseClass), logException);
   }
 
   /**
    * Overload for requests where we've already performed serialization.
    */
   public static <T> T postWithBearerAuth(URL url, String requestBody, String authToken, Class<T> responseClass) throws IOException{
-    return postWithBearerAuth(getURLConnection(url), requestBody, authToken, getDeserializer(responseClass));
+    return postWithBearerAuth(url, requestBody, authToken, responseClass, true);
+  }
+
+  public static <T> T postWithBearerAuth(URL url, String requestBody, String authToken, Class<T> responseClass, boolean logException) throws IOException{
+    return postWithBearerAuth(getURLConnection(url), requestBody, authToken, getDeserializer(responseClass), logException);
   }
 
   /**
@@ -216,6 +237,6 @@ public final class RestUtils {
    * @return Deserialized HTTP response body.
    */
   public static <T> T post(URL url, Object requestBody, Class<T> requestType) throws IOException {
-    return getDeserializer(requestType).apply(post(getURLConnection(url), getSerializer().apply(requestBody), (String)null));
+    return getDeserializer(requestType).apply(post(getURLConnection(url), getSerializer().apply(requestBody), (String)null, true));
   }
 }
